@@ -1,7 +1,6 @@
 pipeline {
     agent any
     
-    // This calls the Maven installation you configured in Jenkins
     tools {
         maven 'Maven3' 
     }
@@ -9,27 +8,21 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                // This step automatically pulls your latest code from GitHub
                 checkout scm
             }
         }
         
         stage('Build') {
             steps {
-                // dir() tells Jenkins to go inside your folder before running Maven
-                dir('Project_1') {
-                    echo 'Compiling the Java application...'
-                    sh 'mvn clean compile'
-                }
+                echo 'Compiling the Java application...'
+                sh 'mvn clean compile'
             }
         }
         
         stage('Unit Test') {
             steps {
-                dir('Project_1') {
-                    echo 'Running JUnit tests...'
-                    sh 'mvn test'
-                }
+                echo 'Running JUnit tests...'
+                sh 'mvn test'
             }
         }
     }
