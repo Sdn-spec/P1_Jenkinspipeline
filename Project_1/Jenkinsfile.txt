@@ -5,6 +5,7 @@ pipeline {
 	    stage('Test') {
 		steps {
 		    echo 'Hello from my first pipeiline'
+		    echo 'So this is to test the change happend here'
 		}
 	    }
 	}
