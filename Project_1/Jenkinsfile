@@ -25,5 +25,16 @@ pipeline {
                 sh 'mvn test'
             }
         }
+        
+        // --- NEW STAGE ADDED BELOW ---
+        stage('Code Analysis') {
+            steps {
+                echo 'Running SonarQube analysis...'
+                // This tells Jenkins to use the exact server configuration we just saved
+                withSonarQubeEnv('sonar-server') { 
+                    sh 'mvn sonar:sonar'
+                }
+            }
+        }
     }
 }
