@@ -26,13 +26,26 @@ pipeline {
             }
         }
         
-        // --- NEW STAGE ADDED BELOW ---
         stage('Code Analysis') {
             steps {
                 echo 'Running SonarQube analysis...'
-                // This tells Jenkins to use the exact server configuration we just saved
                 withSonarQubeEnv('sonar-server') { 
                     sh 'mvn sonar:sonar'
+                }
+            }
+        }
+
+        // --- NEW FINAL STAGE ---
+        stage('Publish to Nexus') {
+            steps {
+                echo 'Publishing artifact to Nexus...'
+                // This grabs the username and password from Jenkins' secure vault
+                withCredentials([usernamePassword(credentialsId: 'nexus-creds', passwordVariable: 'NEXUS_PASS', usernameVariable: 'NEXUS_USER')]) {
+                    // This creates a temporary settings.xml file to securely pass the credentials to Maven
+                    sh '''
+                    echo "<settings><servers><server><id>nexus-releases</id><username>${NEXUS_USER}</username><password>${NEXUS_PASS}</password></server></servers></settings>" > settings.xml
+                    mvn deploy -s settings.xml -DskipTests
+                    '''
                 }
             }
         }
