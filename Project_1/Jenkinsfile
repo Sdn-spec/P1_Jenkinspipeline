@@ -54,10 +54,10 @@ pipeline {
     // --- SLACK NOTIFICATIONS ---
     post {
         success {
-            slackSend(color: 'good', message: "✅ SUCCESS: ${env.JOB_NAME} #${env.BUILD_NUMBER}\nDetails: ${env.BUILD_URL}", tokenCredentialId: 'slack-webhook')
+            slackSend(channel:"	Sudharshan V", color: 'good', message: "✅ SUCCESS: ${env.JOB_NAME} #${env.BUILD_NUMBER}\nDetails: ${env.BUILD_URL}", tokenCredentialId: 'slack-webhook')
         }
         failure {
-            slackSend(color: 'danger', message: "🚨 FAILURE: ${env.JOB_NAME} #${env.BUILD_NUMBER}\nDetails: ${env.BUILD_URL}", tokenCredentialId: 'slack-webhook')
+            slackSend(channel:"	Sudharshan V", color: 'danger', message: "🚨 FAILURE: ${env.JOB_NAME} #${env.BUILD_NUMBER}\nDetails: ${env.BUILD_URL}", tokenCredentialId: 'slack-webhook')
         }
     }
 }
